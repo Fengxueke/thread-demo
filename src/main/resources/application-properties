@@ -1,0 +1,19 @@
+#DB setting
+spring.datasource.url = jdbc:mysql://127.0.0.1:3306/zero_shop?serverTimezone=Shanghai&characterEncoding=utf-8
+spring.datasource.username = root
+spring.datasource.password =
+spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+
+#Mybatis
+mybatis.mapperLocations = classpath:mapper/**/*.xml
+mybatis.typeAliasesPackage = com.swit.model
+
+spring.profiles.active=@spring.profiles.active@
+
+#sts热部署s
+spring.thymeleaf.cache=true
+spring.devtools.restart.enabled=true
+spring.devtools.restart.additional-paths=src/main/java
+
+spring.resources.static-locations=classpath:/
+spring.mvc.static-path-pattern=/**
