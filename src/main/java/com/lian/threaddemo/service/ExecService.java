@@ -1,14 +1,15 @@
 package com.lian.threaddemo.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
@@ -22,12 +23,18 @@ public class ExecService {
 
     @Async
     public String ExecShellScript(ConcurrentLinkedQueue<String> concurrentLinkedQueue) throws IOException, InterruptedException {
-        String homeDirectory = System.getProperty("user.home");
+        ObjectMapper mapper = new ObjectMapper();
+        Map to_text = new HashMap();
         Process process;
         process = Runtime.getRuntime().exec("cmd.exe /c ping -n 10 192.168.1.1");
         InputStream in= process.getInputStream();
         String out = readIn(in, concurrentLinkedQueue);
         latch.await();
+
+        to_text.put("begin_date", new Date());
+        to_text.put("log", out);
+        String text = mapper.writeValueAsString(to_text);
+        writeText(text);
         return out;
     }
 
@@ -57,5 +64,28 @@ public class ExecService {
             str.append(concurrentLinkedQueue.poll());
         latch.countDown();
         return str.toString();
+    }
+
+    private void writeText(String in) throws IOException {
+        File file =new File("D:\\O\\test_appendfile.txt");
+
+        if(!file.exists()){
+
+            file.createNewFile();
+
+        }
+
+        FileWriter fw = new FileWriter(file, true);
+
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(in);
+
+        pw.flush();
+        fw.flush();
+
+        pw.close();
+
+        fw.close();
+        log.info("文件已写入！！！");
     }
 }
