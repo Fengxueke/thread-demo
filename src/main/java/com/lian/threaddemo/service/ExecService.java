@@ -47,7 +47,7 @@ public class ExecService {
         String str = "";
         StringBuilder stringBuilder = new StringBuilder();
         while ( (str = reader.readLine()) != null){
-            stringBuilder.append(str + "\n");
+            stringBuilder.append(str);
             concurrentLinkedQueue.offer(str);
             log.info("--readIn-->" + str);
 

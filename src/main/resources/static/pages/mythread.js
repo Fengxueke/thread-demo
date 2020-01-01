@@ -55,7 +55,7 @@ function getLog() {
 
             //日志内容
             var $loggingText = $("#deblock_udid");
-            $loggingText.append(event.data);
+            $loggingText.append(event.data + "\n");
 
             //是否开启自动底部
             if (window.loggingAutoBottom) {
