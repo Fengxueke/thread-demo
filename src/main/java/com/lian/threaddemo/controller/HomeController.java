@@ -5,24 +5,13 @@ import com.lian.threaddemo.service.ExecService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.AsyncContext;
-import javax.servlet.AsyncEvent;
-import javax.servlet.AsyncListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Controller
@@ -90,7 +79,7 @@ public class HomeController {
     @ResponseBody
     public String openThread() throws Exception {
         //这里来个休眠
-        execService.ExecShellScript(queue);
+        execService.ExecShellScript();
 
         return "running";
     }
@@ -101,7 +90,7 @@ public class HomeController {
     public String getThread() throws Exception {
 
 
-        str_queue =  execService.getIn(queue) ;
+        str_queue =  execService.getIn() ;
 
 
         return str_queue;
